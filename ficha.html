@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Pump v0.1</title>
+
+    <!-- Sets initial viewport load and disables zooming  -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- Include the compiled Ratchet CSS -->
+    <link href="css/ratchet.css" rel="stylesheet">
+
+    <!-- Include the compiled Ratchet JS -->
+    <script src="js/ratchet.js"></script>
+  </head>
+  <body>
+
+    <!-- Make sure all your bars are the first things in your <body> -->
+    <header class="bar bar-nav">
+      <a class="icon icon-left-nav pull-left" href="index.html"></a>
+      <h1 class="title">Pump v0.1</h1>
+    </header>
+
+
+    <footer class="bar bar-footer">
+      <h1 class="title">Footer</h1>
+    </footer>
+
+
+    <!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
+    <div class="content">
+      <form>
+        <input name="descricao" type="text" placeholder="Descrição">
+        <input name="periodoInicial" type="text" placeholder="Periodo Inicial">
+        <input namee="periodoFinal" type="text" placeholder="Período Final">
+        <textarea name="motivo" rows="4" placeholder="Motivo do treino"></textarea>
+        <button class="btn btn-positive btn-block">Confirmar</button>
+      </form>
+    </div>
+
+  </body>
+</html>

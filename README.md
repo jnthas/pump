@@ -1,2 +1,2 @@
 # pump
-Pump is a companion to your workouts
+Pump is a mobile companion to your workouts
