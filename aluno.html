@@ -21,11 +21,9 @@
 
     <!-- Make sure all your bars are the first things in your <body> -->
     <header class="bar bar-nav">
-      <a class="icon icon-left-nav pull-left" href="fichas.html"></a>
+      <a class="icon icon-left-nav pull-left" href="index.html"></a>
       <h1 class="title">Pump v0.1</h1>
     </header>
-
-
     <footer class="bar bar-footer">
       <h1 class="title">Footer</h1>
     </footer>
@@ -34,10 +32,18 @@
     <!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
     <div class="content">
       <form>
-        <input name="descricao" type="text" placeholder="Descrição">
-        <input name="periodoInicial" type="text" placeholder="Periodo Inicial">
-        <input namee="periodoFinal" type="text" placeholder="Período Final">
-        <textarea name="motivo" rows="4" placeholder="Motivo do treino"></textarea>
+        <input name="nome" type="text" placeholder="Nome">
+        <input name="nascimento" type="text" placeholder="Data Nasc.">
+        <input namee="peso" type="text" placeholder="Peso (kg)">
+        <input namee="altura" type="text" placeholder="Altura (cm)">
+          <fieldset>
+            <legend>Sexo</legend>
+            <input id="masc" type="radio" name="sexo" value="masculino">
+            <label for="masc">Masculino</label>
+
+            <input id="fem" type="radio" name="sexo" value="feminino">
+            <label for="fem">Feminino</label>
+          </fieldset>
         <button class="btn btn-positive btn-block">Confirmar</button>
       </form>
     </div>

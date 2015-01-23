@@ -24,38 +24,44 @@
       <h1 class="title">Footer</h1>
     </footer>
     <div class="content">
-      <div class="card">
-        <div class="content-padded">
-          <span class="media-object pull-left icon icon-person"></span>
-          <h3>Aluno</h3>
-          <p>Cadastre os dados pessoais do aluno</p>
-          <button class="btn btn-primary btn-block">Abrir</button>
-        </div>
-      </div>
-      <div class="card">
-        <div class="content-padded">
-          <span class="media-object pull-left icon icon-list"></span>
-          <h3>Ficha</h3>
-          <p>Cadastre a ficha e os exercicios de treino do aluno</p>
-          <button class="btn btn-primary btn-block">Abrir</button>
-        </div>
-      </div>
-      <div class="card">
-        <div class="content-padded">
-          <span class="media-object pull-left icon icon-play"></span>
-          <h3>Treinos</h3>
-          <p>Execute os exercicios cadastrados durante o treino</p>
-          <button class="btn btn-primary btn-block">Abrir</button>
-        </div>
-      </div>
-      <div class="card">
-        <div class="content-padded">
-          <span class="media-object pull-left icon icon-info"></span>
-          <h3>Logs</h3>
-          <p>Visualize o log dos treinos feitos</p>
-          <button class="btn btn-primary btn-block">Abrir</button>
-        </div>
-      </div>
+      <ul class="table-view">
+        <li class="table-view-cell media">
+          <a class="navigate-right" href="aluno.html">
+            <span class="media-object pull-left icon icon-person"></span>
+            <div class="media-body">
+              Aluno
+              <p>Cadastre seus dados pessoais aqui</p>
+            </div>
+          </a>
+        </li>
+        <li class="table-view-cell media">
+          <a class="navigate-right" href="fichas.html">
+            <span class="media-object pull-left icon icon-list"></span>
+            <div class="media-body">
+              Ficha
+              <p>Cadastre a ficha e os exercicios de treino do aluno</p>
+            </div>
+          </a>
+        </li>
+        <li class="table-view-cell media">
+          <a class="navigate-right">
+            <span class="media-object pull-left icon icon-play"></span>
+            <div class="media-body">
+              Treinos
+              <p>Execute os exercicios cadastrados durante o treino</p>
+            </div>
+          </a>
+        </li>
+        <li class="table-view-cell media">
+          <a class="navigate-right">
+            <span class="media-object pull-left icon icon-info"></span>
+            <div class="media-body">
+              Logs
+              <p>Visualize o log dos treinos feitos</p>
+            </div>
+          </a>
+        </li>
+      </ul>
     </div>
   </body>
 </html>
