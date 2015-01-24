@@ -1,0 +1,11 @@
+/*custom style sheet*/
+
+
+button.updown.btn {
+  width: 50px;
+  height: 35px;
+}
+
+.updown.input[text] {
+  width: 50px;
+}
