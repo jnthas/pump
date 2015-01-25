@@ -1,11 +1,18 @@
 /*custom style sheet*/
 
 
-button.updown.btn {
+.updown .btn {
   width: 50px;
   height: 35px;
 }
 
-.updown.input[text] {
+
+
+.updown input[type="text"] {
   width: 50px;
+}
+
+
+.center {
+  text-align: center;
 }
