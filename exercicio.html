@@ -13,7 +13,6 @@
 
     <!-- Include the compiled Ratchet CSS -->
     <link href="css/ratchet.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet">
 
     <!-- Include the compiled Ratchet JS -->
     <script src="js/ratchet.js"></script>
@@ -23,39 +22,59 @@
     <!-- Make sure all your bars are the first things in your <body> -->
     <header class="bar bar-nav">
       <a class="icon icon-left-nav pull-left" href="exercicios.html"></a>
-      <h1 class="title">Pump v0.1</h1>
+      <h1 class="title">Exercício</h1>
     </header>
     <footer class="bar bar-footer">
-      <h1 class="title">Footer</h1>
+      <h1 class="title">Pump v0.1</h1>
     </footer>
 
 
     <!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
     <div class="content">
-      <form>
-        <input name="descricao" type="text" placeholder="Descricao">
-        <div class="card updown">
+        <input name="descricao" type="text" placeholder="Descrição">
+          
+        <div id="serie" class="card updown">
           <p>Séries</p>
           <div class="center">
-            <button class="btn btn-primary">+</button>
-            <input name="serie" type="text">
-            <button class="btn btn-negative">-</button>
+            <button name="minusbtn" class="btn btn-negative">-</button>
+            <input name="serie" type="text" disabled>
+            <button name="plusbtn" class="btn btn-primary">+</button>            
           </div>
-        </div>
+        </div>        
 
-        <div class="card updown">
-          <p>Repetições</p>
-          <div class="center">
-            <button class="btn btn-primary">+</button>
-            <input name="repeticao" type="text">
-            <button class="btn btn-negative">-</button>
+        <div id="carga" class="card updown">
+          <p><input type="radio" name="tipo" value="carga" checked> Carga (kg)</p>
+          <div class="center">             
+            <button name="minusbtn" class="btn btn-negative">-</button>
+            <input name="carga" type="text" disabled>
+            <button name="plusbtn" class="btn btn-primary">+</button>
+            
           </div>
         </div>
+        
+        <div id="repeticao" class="card updown">
+          <p><input type="radio" name="tipo" value="repeticao"> Repetições</p>
+          <div class="center">             
+            <button name="minusbtn" class="btn btn-negative">-</button>
+            <input name="repeticao" type="text" disabled>
+            <button name="plusbtn" class="btn btn-primary">+</button>            
+          </div>
+        </div>
+        
+        <input name="descanso" type="text" placeholder="Descanso entre séries (seg)">
+        
+        <textarea name="motivo" rows="2" placeholder="Observações"></textarea>
 
 
         <button class="btn btn-positive btn-block">Confirmar</button>
-      </form>
     </div>
-
+      
+    <script>
+      
+      registerUpDown($("#serie [name='plusbtn']")[0], $("#serie [name='minusbtn']")[0], $("#serie [name='serie']")[0]);
+      registerUpDown($("#carga [name='plusbtn']")[0], $("#carga [name='minusbtn']")[0], $("#carga [name='carga']")[0]);
+      registerUpDown($("#repeticao [name='plusbtn']")[0], $("#repeticao [name='minusbtn']")[0], $("#repeticao [name='repeticao']")[0]);      
+    </script>
+      
   </body>
 </html>
