@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Pump v0.1</title>
+
+    <!-- Sets initial viewport load and disables zooming  -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- Include the compiled Ratchet CSS -->
+    <link href="css/ratchet.css" rel="stylesheet">
+
+    <!-- Include the compiled Ratchet JS -->
+    <script src="js/ratchet.js"></script>
+  </head>
+  <body>
+
+    <!-- Make sure all your bars are the first things in your <body> -->
+    <header class="bar bar-nav">
+      <a class="icon icon-left-nav pull-left" href="index.html"></a>
+      <a class="icon icon-compose pull-right" href="ficha.html"></a>
+      <h1 class="title">Fichas</h1>
+    </header>
+
+
+    <footer class="bar bar-footer">
+      <h1 class="title">Pump v0.1</h1>
+    </footer>
+
+
+    <!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
+    <div class="content">
+      <!--
+      <div class="card">
+        <div class="content-padded">
+          <p>Jonathas Amaral Barbosa</p>
+          <p>Idade: 29 Peso: 65Kg</p>
+        </div>
+      </div>
+      -->
+
+      <ul class="table-view">
+        <li class="table-view-cell">
+          <a href="ficha.html">
+            <p><strong>Ficha 3</strong></p>
+            <p>01/01/2015 - 01/02/2015</p>
+          </a>
+          <a class="btn btn-primary" href="exercicios.html">Exercícios</a>
+        </li>
+        <li class="table-view-cell">
+          <a href="ficha.html">
+            <p><strong>Ficha 2</strong></p>
+            <p>30/09/2014 - 31/12/2014</p>
+          </a>
+          <a class="btn btn-primary" href="exercicios.html">Exercícios</a>
+        </li>
+        <li class="table-view-cell">
+          <a href="ficha.html">
+            <p><strong>Ficha 1</strong></p>
+            <p>14/06/2014 - 29/09/2014</p>
+          </a>
+          <a class="btn btn-primary" href="exercicios.html">Exercícios</a>
+        </li>
+      </ul>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+
+
+pump = {
+  aluno: {
+    nome: "Jonathas",
+    nasc: "19850205",
+    peso: 65,
+    alt: 174,
+    sexo: "m"
+  },
+  ficha: [
+    {
+      id: 1,
+      nome: "ficha 1",
+      motivo: "",
+      inicio: "20150101",    
+      fim: null,
+      exercicios: [
+        {
+        indice: 1,
+        descricao: "remada baixa",
+        observacao: "",
+        serie: 3,
+        carga: 10,
+        repeticao: 12,
+        descanso: 60
+        },
+        {
+        indice: 2,
+        descricao: "puxador costas",
+        observacao: "",
+        serie: 3,
+        carga: 30,
+        repeticao: 8,
+        descanso: 60
+        }   
+      ]      
+    }, 
+    {id: 2 ...}     
+  ] 
+}
+
+
+log = {  
+}
+
+
+
