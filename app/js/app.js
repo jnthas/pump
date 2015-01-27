@@ -12,18 +12,23 @@ $(function(){
     el: $("#hello"),
     template: _.template($('#hello-template').html()),
     
-    render: function() {
-      this.$el.html(this.template({text: "Hello World!"}));
-      return this;
+    initialize: function() {
+      this.render();
     },
+    
+    render: function() {
+      this.$el.html(this.template({text: "Hello, World!"}));
+      return this;
+    }
   
   });
   
   var AppView = Backbone.View.extend({
-    tagName: "body",
-    render: function() {
-      var h = new AlunoView();
+
+    initialize: function() {
+      var view = new AlunoView();
     }
+
   });
 
   var App = new AppView();
