@@ -1,0 +1,38 @@
+<!doctype html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <title>Pump v0.1</title>
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/angular.js"></script>
+    <script src="js/app.js"></script>
+
+  </head>
+
+  <body ng-app="pump">
+    <h1>Pump v0.1</h1>
+
+    <a href="index.html">Voltar</a>
+
+    <div ng-controller="StudentController as student">
+      <form name="studentForm" ng-submit="studentForm.$valid && student.save(student.model)" novalidate>
+        <label for="name">Nome</label>
+        <input name="name" type="text" value="{{student.model.name}}" ng-model="student.model.name" required>
+        <br>
+        <label for="born">Nasc.</label>
+        <input name="born" type="text" value="{{student.model.born}}" ng-model="student.model.born" required>
+        <br>
+        <label for="weight">Peso</label>
+        <input name="weight" type="number" value="{{student.model.weight}}" ng-model="student.model.weight" required>
+        <br>
+        <label for="height">Altura</label>
+        <input name="height" type="number" value="{{student.model.height}}" ng-model="student.model.height" required>
+        <br>
+        <input type="submit" value="Submit">
+
+      </form>
+    </div>
+
+ </body>
+
+</html>
