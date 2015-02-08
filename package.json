@@ -1,0 +1,31 @@
+{
+  "name": "Pump",
+  "version": "0.1.0",
+  "description": "A mobile companion for your gym workouts.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {"type": "git", "url": "https://github.com/jnthas/pump" },
+  "keywords": [
+    "mobile",
+    "web",
+    "app",
+    "js",
+    "angular"
+  ],
+  
+  "devDependencies": {
+    "http-server": "^0.6.1"
+  },
+  "author": "Jonathas Amaral <jnthas@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jnthas/pump/issues"
+  },
+  "homepage": "https://github.com/jnthas/pump",
+
+  "scripts": {
+    "start": "http-server -a 0.0.0.0 -p 8001"
+  }
+}
