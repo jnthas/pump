@@ -1,24 +1,22 @@
 <h1>Pump v0.1</h1>
 
-<a href="fichas.html">Voltar</a>
+<a href="#/plans">Voltar</a>
 
-<div ng-controller="TrainingPlanController as plan">
-  <form name="studentForm" ng-submit="studentForm.$valid && student.save(student.model)" novalidate>
+<div ng-controller="TrainingPlanController">
+  
+  <form name="trainingPlanForm" ng-submit="trainingPlanForm.$valid && save(plan)" novalidate>
 
-    <label for="name">Descrição</label>
-    <input name="name" type="text" value="{{plan.model.name}}" ng-model="student.model.name" required>        
+    <label for="description">Descrição</label>
+    <input name="description" type="text" value="{{plan.description}}" ng-model="plan.description" required>            
     <br>
-
-
-
-    <label for="born">Nasc.</label>
-    <input name="born" type="text" value="{{student.model.born}}" ng-model="student.model.born" required>
+    <label for="startDate">Periodo Inicial</label>
+    <input name="startDate" type="text" value="{{plan.startDate}}" ng-model="plan.startDate" required>    
     <br>
-    <label for="weight">Peso</label>
-    <input name="weight" type="number" value="{{student.model.weight}}" ng-model="student.model.weight" required>
+    <label for="endDate">Periodo Final</label>
+    <input name="endDate" type="text" value="{{plan.endDate}}" ng-model="plan.endDate" required>    
     <br>
-    <label for="height">Altura</label>
-    <input name="height" type="number" value="{{student.model.height}}" ng-model="student.model.height" required>
+    <label for="reason">Motivo</label>  
+    <textarea name="reason" rows="4" placeholder="{{plan.reason}}" ng-model="plan.reason" required></textarea>
     <br>
     <input type="submit" value="Submit">
 
