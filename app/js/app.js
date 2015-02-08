@@ -5,6 +5,12 @@
 
 var app = angular.module("pump", ["ngRoute", "pumpControllers"]);
 
+app.run(function($rootScope, $window){
+  $rootScope.doBack = function(){
+    $window.history.back();
+  };
+});
+
 app.config(function($routeProvider){
 
   $routeProvider.    
@@ -15,12 +21,12 @@ app.config(function($routeProvider){
       templateUrl: "partials/student.html",
       controller: "StudentController"
     }).
-    when("/training-plan", {
-      templateUrl: "partials/training-plans.html",
+    when("/plans", {  //list all training plans
+      templateUrl: "partials/plans.html",
       controller: "TrainingPlanController"
-    }).
-    when("/training-plan/:planId", {
-      templateUrl: "partials/training-plan.html",
+    }).  
+    when("/plans/:planId", {
+      templateUrl: "partials/plan.html",
       controller: "TrainingPlanController"
     }).
     otherwise({
