@@ -1,0 +1,15 @@
+
+<h1>Pump v0.1</h1>
+
+<a href="#/plans">Voltar</a>
+
+<div ng-controller="ExerciseController">  
+  
+  <ul ng-repeat="e in exercises">    
+    <li>
+        <a href="#/plans/{{plan.id}}/exercises/{{e.id}}">{{e.name}}</a>
+        <p>{{e.sets}} séries, {{e.reps}} repetições de {{e.weight}}kg</p>
+    </li>
+  </ul>
+</div>
+

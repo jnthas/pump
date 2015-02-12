@@ -1,0 +1,27 @@
+<h1>Pump v0.1</h1>
+
+<div ng-controller="ExerciseController">
+    
+    <a href="#/plans/{{plan.id}}/exercises">Voltar</a>
+    
+    <form name="exerciseForm" ng-submit="exerciseForm.$valid && save(exercises)" novalidate>
+
+    <label for="name">Nome</label>
+    <input name="name" type="text" value="{{exercise.name}}" ng-model="exercise.name" required>            
+    <br>
+    <label for="sets">Séries</label>
+    <input name="sets" type="text" value="{{exercise.sets}}" ng-model="exercise.sets">            
+    <br>
+    <label for="reps">Repetições</label>
+    <input name="reps" type="text" value="{{exercise.reps}}" ng-model="exercise.reps">            
+    <br>
+    <label for="weight">Carga</label>
+    <input name="weight" type="text" value="{{exercise.weight}}" ng-model="exercise.weight">       
+    <br>
+    <label for="rest">Descando entre séries (seg)</label>
+    <input name="rest" type="text" value="{{exercise.rest}}" ng-model="exercise.rest">
+    <br>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
