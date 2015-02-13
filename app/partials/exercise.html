@@ -4,7 +4,7 @@
     
     <a href="#/plans/{{plan.id}}/exercises">Voltar</a>
     
-    <form name="exerciseForm" ng-submit="exerciseForm.$valid && save(exercises)" novalidate>
+    <form name="exerciseForm" ng-submit="exerciseForm.$valid && save(plan)" novalidate>
 
     <label for="name">Nome</label>
     <input name="name" type="text" value="{{exercise.name}}" ng-model="exercise.name" required>            

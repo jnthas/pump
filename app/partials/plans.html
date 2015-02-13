@@ -5,7 +5,7 @@
 
 <div ng-controller="TrainingPlanController">  
   <ul ng-repeat="plan in plans">    
-    <li><a href="#/plans/{{plan.id}}">{{plan.description}}</a> - <a href="#">Exercicios</a></li>
+    <li><a href="#/plans/{{plan.id}}">{{plan.description}}</a> - <a href="#/plans/{{plan.id}}/exercises">Exercicios</a></li>
   </ul>
 </div>
 

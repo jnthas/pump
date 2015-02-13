@@ -1,9 +1,9 @@
 "use strict";
 
-
 /* Main Module */
-
 var app = angular.module("pump", ["ngRoute", "pumpControllers"]);
+
+app.value("clientId", "as8JK9sdlk2wSDqweIm");
 
 app.run(function($rootScope, $window){
   $rootScope.doBack = function(){
@@ -25,9 +25,17 @@ app.config(function($routeProvider){
       templateUrl: "partials/plans.html",
       controller: "TrainingPlanController"
     }).  
-    when("/plans/:planId", {
+    when("/plans/:planId", { //show training plan details 
       templateUrl: "partials/plan.html",
       controller: "TrainingPlanController"
+    }).
+    when("/plans/:planId/exercises", { // list all exercises of one plan
+      templateUrl: "partials/exercises.html",
+      controller: "ExerciseController"      
+    }).
+    when("/plans/:planId/exercises/:exerciseId", { // show exercise details 
+      templateUrl: "partials/exercise.html",
+      controller: "ExerciseController"      
     }).
     otherwise({
       redirectTo: "/"
