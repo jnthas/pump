@@ -3,7 +3,7 @@
 
 <a href="#/plans">Voltar</a>
 
-<div ng-controller="ExerciseController">  
+<div ng-controller="ExerciseListController">  
   
   <ul ng-repeat="e in exercises">    
     <li>
@@ -11,5 +11,7 @@
         <p>{{e.sets}} séries, {{e.reps}} repetições de {{e.weight}}kg</p>
     </li>
   </ul>
+  
+  <a href="#/plans/{{plan.id}}/exercises/new">Novo</a>
 </div>
 

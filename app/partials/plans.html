@@ -3,9 +3,10 @@
 
 <a href="#/">Voltar</a>
 
-<div ng-controller="TrainingPlanController">  
+<div ng-controller="TrainingPlanListController">  
   <ul ng-repeat="plan in plans">    
     <li><a href="#/plans/{{plan.id}}">{{plan.description}}</a> - <a href="#/plans/{{plan.id}}/exercises">Exercicios</a></li>
   </ul>
+  <a href="#/plans/new">Novo</a>
 </div>
 

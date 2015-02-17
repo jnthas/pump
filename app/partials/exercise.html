@@ -2,9 +2,9 @@
 
 <div ng-controller="ExerciseController">
     
-    <a href="#/plans/{{plan.id}}/exercises">Voltar</a>
+  <a href="#/plans/{{planId}}/exercises">Voltar</a>
     
-    <form name="exerciseForm" ng-submit="exerciseForm.$valid && save(plan)" novalidate>
+  <form name="exerciseForm" ng-submit="exerciseForm.$valid && save(exercise)" novalidate>
 
     <label for="name">Nome</label>
     <input name="name" type="text" value="{{exercise.name}}" ng-model="exercise.name" required>            
