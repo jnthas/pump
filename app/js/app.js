@@ -1,7 +1,7 @@
 "use strict";
 
 /* Main Module */
-var app = angular.module("pump", ["ngRoute", "pumpControllers", "LocalStorageModule"]);
+var app = angular.module("pump", ["ngRoute", "pumpControllers", "LocalStorageModule", "angular-websql"]);
 
 app.value("clientId", "as8JK9sdlk2wSDqweIm");
 

@@ -6,6 +6,7 @@ var pumpControllers = angular.module("pumpControllers", []);
 /* Student Controller */
 pumpControllers.controller("StudentController", function($scope, dataService) {
   
+  
   dataService.getStudent().then(function(std) {
     $scope.student = std;  
   });
@@ -21,7 +22,7 @@ pumpControllers.controller("StudentController", function($scope, dataService) {
 
 
 /* Training Plan Controller */
-pumpControllers.controller("TrainingPlanListController", function($scope, dataService) {        
+pumpControllers.controller("TrainingPlanListController", function($scope, dataService) {  
   dataService.getAll().then(function(p){
     $scope.plans = p;   
   });
