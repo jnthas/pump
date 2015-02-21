@@ -1,14 +1,19 @@
 "use strict";
 
 /* Main Module */
-var app = angular.module("pump", ["ngRoute", "pumpControllers", "LocalStorageModule", "angular-websql"]);
+var app = angular.module("pump", ["ngRoute", "pumpControllers", "LocalStorageModule"]);
 
 app.value("clientId", "as8JK9sdlk2wSDqweIm");
 
-app.run(function($rootScope, $window){
+app.run(function($rootScope, $window, dataService){
   $rootScope.doBack = function(){
     $window.history.back();
-  };
+  };  
+  
+  dataService.initialize().catch(function(msg) {
+    console.error("Ocorreu um erro ao inicializar o serviço de dados: " + msg);
+  });
+  
 });
 
 app.config(function($routeProvider){

@@ -1,215 +1,184 @@
 "use strict";
 
-angular.module("pump").factory("dataService", function($q, $webSql) {
-    
-  this.initialize = function() {
-    var deferred = $q.defer();
-    db = $webSql.openDatabase("pump", "0.1", "Pump Database", 5 * 1024 * 1024);    
-    createTables(db);
-    deferred.resolve(service(db));
+angular.module("pump").factory("dataService", function($q, $window) {
+  
+  var db;
+  
+  
+  this.initialize = function() {    
+    var deferred = $q.defer();    
+    if ("openDatabase" in $window) {      
+      db = window.openDatabase("Pump", 1, "Pump", 5 * 1024 * 1024, function(db) {        
+        console.log("Creating database...");        
+        db.transaction(function(tx){
+          createTables(tx);        
+        });
+      });           
+      deferred.resolve();
+    } else {
+      deferred.reject("WebSQL is not supported!");
+    }
     return deferred.promise;
   };
   
   
-  function createTables(db) {
+  this.getStudent = function() {
+    var deferred = $q.defer();    
+    db.transaction(function(tx){
+      tx.executeSql("SELECT * FROM student", null, function(tx, results){        
+        if (results.rows.length) {
+          deferred.resolve(results.rows.item(0));
+        } else {
+          deferred.resolve(new Student());          
+        }
+      });
+    }, function(error){
+      deferred.reject(error);
+    });
     
-    var tableStudent = {
-      "id":{
-        "type": "INTEGER",
-        "null": "NOT NULL", // default is "NULL" (if not defined)
-        "primary": true, // primary
-        "auto_increment": true // auto increment
-      },
-      "name":{
-        "type": "TEXT"
-      },
-      "born":{
-        "type": "TIMESTAMP"
-      },
-      "weight":{
-        "type": "INTEGER"        
-      },
-      "height":{
-        "type": "INTEGER"
-      }    
-    };
-    
+    return deferred.promise;
+  };
 
-    var tablePlans = {
-      "id":{
-        "type": "INTEGER",
-        "null": "NOT NULL", // default is "NULL" (if not defined)
-        "primary": true, // primary
-        "auto_increment": true // auto increment
-      },
-      "description":{
-        "type": "TEXT"
-      },
-      "startDate":{
-        "type": "TIMESTAMP"
-      },
-      "endDate":{
-        "type": "TIMESTAMP"
-      },
-      "reason":{
-        "type": "TEXT"
-      }      
-    };
+  this.getAll = function() {
+    var deferred = $q.defer();    
+    db.transaction(function(tx){
+      tx.executeSql("SELECT * FROM plan", null, function(tx, results){        
+        var len = results.rows.length;
+        if (len) {
+          var plans = [];
+          for (var i=0; i < len; i++) {
+            plans[i] = results.rows.item(i);
+          }
+          deferred.resolve(plans);
+        } else {
+          deferred.resolve();          
+        }
+      });
+    }, function(error){
+      deferred.reject(error);
+    });
+    return deferred.promise;
+  };
+
+  this.findById = function(id) {
+    var deferred = $q.defer();
+    db.transaction(function(tx){
+      tx.executeSql("SELECT * FROM plan WHERE id = :id", [id], function(tx, results){        
+        if (results.rows.length) {
+          deferred.resolve(results.rows.item(0));
+        } else {
+          deferred.resolve(new Student());          
+        }
+      });
+    }, function(error){
+      deferred.reject(error);
+    });    
+    return deferred.promise;
+  };
+
+  this.findExerciseById = function(planId, id) {
+    var deferred = $q.defer();
+    db.transaction(function(tx){
+      tx.executeSql("SELECT * FROM exercise WHERE planId = :planId AND id = :id", [planId, id], function(tx, results){        
+        if (results.rows.length) {
+          deferred.resolve(results.rows.item(0));
+        } else {
+          deferred.resolve(new Student());          
+        }
+      });
+    }, function(error){
+      deferred.reject(error);
+    });    
+    return deferred.promise;
+  };
+
+
+  this.saveStudent = function(std) {    
+    var deferred = $q.defer();
+    var sql = "INSERT INTO student VALUES (:id, :name, :born, :weight, :height);";    
+    db.transaction(function(tx){
+      tx.executeSql(sql, [null, std.name, std.born, std.weight, std.height], function(tx, results){
+        deferred.resolve();
+      });      
+    }, function(error){
+      deferred.reject(error);
+    });    
+    return deferred.promise;    
+  };  
+
+  this.savePlan = function(plan) {    
+    var deferred = $q.defer(),
+        sql, values;    
     
-    var tableExercises = {
-      "id":{
-        "type": "INTEGER",
-        "null": "NOT NULL", // default is "NULL" (if not defined)
-        "primary": true, // primary
-        "auto_increment": true // auto increment
-      },
-      "idFicha":{
-        "type": "INTEGER",
-        "null": "NOT NULL"
-      },
-      "name":{
-        "type": "TEXT"
-      },
-      "sets":{
-        "type": "INTEGER"
-      },
-      "reps":{
-        "type": "INTEGER"
-      },
-      "weight":{
-        "type": "INTEGER"
-      },
-      "rest":{
-        "type": "INTEGER"
-      }
-    };
+    if (plan.id) {
+      sql = "UPDATE plan VALUES (description = :description, startDate = :startDate, endDate = :endDate, reason = :reason WHERE id = :id;";
+      values = [plan.description, plan.startDate, plan.endDate, plan.reason, plan.id];
+    } else {
+      sql = "INSERT INTO plan VALUES (:id, :description, :startDate, :endDate, :reason);";
+      values = [null, plan.description, plan.startDate, plan.endDate, plan.reason];      
+    }
     
-    db.createTable('student', tableStudent);
-    db.createTable('plan', tablePlans);
-    db.createTable('exercise', tableExercises);
+    
+    db.transaction(function(tx){
+      tx.executeSql(sql, values, function(tx, results){
+        deferred.resolve();
+      });      
+    }, function(error){
+      deferred.reject(error);
+    });    
+    return deferred.promise;
+  };
+
+  this.saveExercise = function(planId, exercise) {
+    var deferred = $q.defer(),
+        sql, values;
+    
+    if (exercise.id) {    
+      sql = "UPDATE exercise SET planId = :planId, name = :name, sets = :sets, reps = :reps, weight = :weight, rest = :rest WHERE id = :id;";
+      values = [planId, exercise.name, exercise.sets, exercise.reps, exercise.weight, exercise.rest, exercise.id]
+    } else {    
+      sql = "INSERT INTO exercise VALUES (:id, :planId, :name, :sets, :reps, :weight, :rest);";
+      values = [null, planId, exercise.name, exercise.sets, exercise.reps, exercise.weight, exercise.rest]
+    }    
+    
+    db.transaction(function(tx){
+      tx.executeSql(sql, values, function(tx, results){
+        deferred.resolve();
+      });      
+    }, function(error){
+      deferred.reject(error);
+    });
+    return deferred.promise;    
+  };
+
+
+
+  function createTables(tx) {
+                 
+    var sql = "CREATE TABLE student (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(100), born TIMESTAMP, weight INTEGER, height INTEGER);"; 
+    tx.executeSql(sql, null, function() {
+      console.log("Tabela criada: student");
+    }, function(tx, erro) {
+      console.log("Erro ao criar tabela student: " + erro.message);
+    });
+    
+    
+    sql = "CREATE TABLE plan (id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(100), startDate TIMESTAMP, endDate TIMESTAMP, reason VARCHAR(200));";
+    tx.executeSql(sql, null, function() {
+      console.log("Tabela criada: plan");
+    }, function(tx, erro) {
+      console.log("Erro ao criar tabela plan: " + erro.message);
+    });
+    
+    
+    sql = "CREATE TABLE exercise (id INTEGER PRIMARY KEY AUTOINCREMENT, planId INTEGER, name VARCHAR(100), sets INTEGER, reps INTEGER, weight INTEGER, rest INTEGER);";
+    tx.executeSql(sql, null, function() {
+      console.log("Tabela criada: exercise");
+    }, function(tx, erro) {
+      console.log("Erro ao criar tabela exercise: " + erro.message);
+    });
   }
   
-  
-  function service(db) {
-
-    this.getStudent = function() {
-      var deferred = $q.defer();
-    
-      db.
-    
-    
-      deferred.resolve(student);
-      return deferred.promise;
-    };
-
-    this.getAll = function() {
-      var deferred = $q.defer();
-      deferred.resolve(trainingPlans);
-      return deferred.promise;
-    };
-
-    this.findById = function(id) {
-      var deferred = $q.defer();
-      try {      
-        var obj = trainingPlans[findByIdReturningIndex(id, trainingPlans)];
-        deferred.resolve(obj);
-      } catch(ex) {    
-        deferred.reject("Registro não encontrado: " + ex.message);
-      }
-      return deferred.promise;
-    };
-
-    this.findExerciseById = function(planId, id) {
-      var deferred = $q.defer();
-      try {      
-          this.findById(planId).then(function(plan){
-            var obj = plan.exercises[findByIdReturningIndex(id, plan.exercises)];
-            deferred.resolve(obj);       
-          }, function(msg){
-            deferred.reject(msg);
-          });        
-      } catch(ex) {    
-        deferred.reject("Registro não encontrado: " + ex.message);
-      }
-      return deferred.promise;
-    };
-
-
-    this.saveStudent = function(std) {    
-      var deferred = $q.defer();
-      try {
-        save([student], std);
-        deferred.resolve();
-      } catch(ex) {
-        deffered.reject("Erro ao salvar registro: " + ex.message);
-      }
-      return deferred.promise;    
-    };  
-
-    this.savePlan = function(plan) {    
-      var deferred = $q.defer();
-      try {
-        save(trainingPlans, plan);
-        deferred.resolve();
-      } catch(ex) {
-        deffered.reject("Erro ao salvar registro: " + ex.message);
-      }
-      return deferred.promise;
-    };
-
-    this.saveExercise = function(planId, exercise) {
-      var deferred = $q.defer();
-      try {
-        this.findById(planId).then(function(plan){
-          save(plan.exercises, exercise);
-          deferred.resolve();
-        }, function(msg) {
-          deferred.reject(msg);
-        });
-      } catch(ex) {
-        deferred.reject("Erro ao salvar registro: " + ex.message);
-      }
-      return deferred.promise;    
-    };
-
-
-    /* ---------- Private functions --------- */
-
-    function findByIdReturningIndex(id, arr) {
-      //console.log("findByIdReturningIndex: " + id) ;
-      for(var i=0; i<arr.length; i++) {
-        if (arr[i].id == parseInt(id)) {
-          return i;
-        }
-      }
-      throw "Registro não encontrado!";
-    };
-
-    function save(arr, obj) {
-      //console.log("save:"); console.log(arr);
-      if (obj.id) { //update      
-        var idx = findByIdReturningIndex(obj.id, arr);
-        arr[idx] = obj;
-      } else {  //insert
-        obj.id = parseInt(getLastId(arr)) + 1;
-        arr.push(obj);
-      }
-    };
-
-
-    function getLastId(arr) {
-      var last = 1;    
-      for(var i=0; i<arr.length; i++) {
-        if (arr[i].id > last) {
-          last = arr[i].id;
-        }
-      }
-      //console.log("getLastId: " + last);
-      return last;
-    };
-    
-    return this;  
-  }
   
   return this;
 });
