@@ -4,7 +4,6 @@ angular.module("pump").factory("dataService", function($q, $window) {
   
   var db;
   
-  
   this.initialize = function() {    
     var deferred = $q.defer();    
     if ("openDatabase" in $window) {      
@@ -26,20 +25,20 @@ angular.module("pump").factory("dataService", function($q, $window) {
     var deferred = $q.defer();    
     db.transaction(function(tx){
       tx.executeSql("SELECT * FROM student", null, function(tx, results){        
-        if (results.rows.length) {
-          deferred.resolve(results.rows.item(0));
+        if (results.rows.length) {          
+          deferred.resolve(JSON.parse(JSON.stringify(results.rows.item(0))));
         } else {
           deferred.resolve(new Student());          
         }
       });
     }, function(error){
-      deferred.reject(error);
+      deferred.reject(error.message);
     });
     
     return deferred.promise;
   };
 
-  this.getAll = function() {
+  this.getAllPlans = function() {
     var deferred = $q.defer();    
     db.transaction(function(tx){
       tx.executeSql("SELECT * FROM plan", null, function(tx, results){        
@@ -49,29 +48,58 @@ angular.module("pump").factory("dataService", function($q, $window) {
           for (var i=0; i < len; i++) {
             plans[i] = results.rows.item(i);
           }
-          deferred.resolve(plans);
+          deferred.resolve(JSON.parse(JSON.stringify(plans)));
         } else {
-          deferred.resolve();          
+          deferred.resolve();
         }
       });
     }, function(error){
-      deferred.reject(error);
+      deferred.reject(error.message);
     });
     return deferred.promise;
   };
 
+  
+  
+  this.getAllExercises = function(planId) {
+    var deferred = $q.defer();    
+    
+    db.transaction(function(tx){
+      tx.executeSql("SELECT * FROM exercise WHERE planId = :id", [planId], function(tx, results){
+        
+        var len = results.rows.length;        
+        
+        if (len) {
+          var exercises = [];
+          for (var i=0; i < len; i++) {
+            exercises[i] = results.rows.item(i);
+          }
+          deferred.resolve(JSON.parse(JSON.stringify(exercises)));
+        } else {
+          deferred.resolve();
+        }
+      });
+    }, function(error){
+      deferred.reject(error.message);
+    });
+    return deferred.promise;
+  };
+
+  
+  
+  
   this.findById = function(id) {
     var deferred = $q.defer();
     db.transaction(function(tx){
       tx.executeSql("SELECT * FROM plan WHERE id = :id", [id], function(tx, results){        
         if (results.rows.length) {
-          deferred.resolve(results.rows.item(0));
+          deferred.resolve(JSON.parse(JSON.stringify(results.rows.item(0))));
         } else {
           deferred.resolve(new Student());          
         }
       });
     }, function(error){
-      deferred.reject(error);
+      deferred.reject(error.message);
     });    
     return deferred.promise;
   };
@@ -81,27 +109,35 @@ angular.module("pump").factory("dataService", function($q, $window) {
     db.transaction(function(tx){
       tx.executeSql("SELECT * FROM exercise WHERE planId = :planId AND id = :id", [planId, id], function(tx, results){        
         if (results.rows.length) {
-          deferred.resolve(results.rows.item(0));
+          deferred.resolve(JSON.parse(JSON.stringify(results.rows.item(0))));
         } else {
           deferred.resolve(new Student());          
         }
       });
     }, function(error){
-      deferred.reject(error);
+      deferred.reject(error.message);
     });    
     return deferred.promise;
   };
 
 
   this.saveStudent = function(std) {    
-    var deferred = $q.defer();
-    var sql = "INSERT INTO student VALUES (:id, :name, :born, :weight, :height);";    
+    var deferred = $q.defer(),
+        sql, values;
+    if (std.id) {
+      sql = "UPDATE student SET name = :name, born = :born, weight = :weight, height = :height WHERE id = :id;";    
+      values = [std.name, std.born, std.weight, std.height, std.id];
+    } else {
+      sql = "INSERT INTO student VALUES (:id, :name, :born, :weight, :height);";    
+      values = [null, std.name, std.born, std.weight, std.height];
+    }    
+    
     db.transaction(function(tx){
-      tx.executeSql(sql, [null, std.name, std.born, std.weight, std.height], function(tx, results){
+      tx.executeSql(sql, values, function(tx, results){
         deferred.resolve();
       });      
     }, function(error){
-      deferred.reject(error);
+      deferred.reject(error.message);
     });    
     return deferred.promise;    
   };  
@@ -111,7 +147,7 @@ angular.module("pump").factory("dataService", function($q, $window) {
         sql, values;    
     
     if (plan.id) {
-      sql = "UPDATE plan VALUES (description = :description, startDate = :startDate, endDate = :endDate, reason = :reason WHERE id = :id;";
+      sql = "UPDATE plan SET description = :description, startDate = :startDate, endDate = :endDate, reason = :reason WHERE id = :id;";
       values = [plan.description, plan.startDate, plan.endDate, plan.reason, plan.id];
     } else {
       sql = "INSERT INTO plan VALUES (:id, :description, :startDate, :endDate, :reason);";
@@ -122,9 +158,9 @@ angular.module("pump").factory("dataService", function($q, $window) {
     db.transaction(function(tx){
       tx.executeSql(sql, values, function(tx, results){
         deferred.resolve();
-      });      
+      });
     }, function(error){
-      deferred.reject(error);
+      deferred.reject(error.message);
     });    
     return deferred.promise;
   };
@@ -146,7 +182,7 @@ angular.module("pump").factory("dataService", function($q, $window) {
         deferred.resolve();
       });      
     }, function(error){
-      deferred.reject(error);
+      deferred.reject(error.message);
     });
     return deferred.promise;    
   };

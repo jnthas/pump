@@ -14,9 +14,20 @@ angular.module("pump").factory("dataService", function($q) {
     return deferred.promise;
   };
   
-  this.getAll = function() {
+  this.getAllPlans = function() {
     var deferred = $q.defer();
     deferred.resolve(trainingPlans);
+    return deferred.promise;
+  };
+  
+  this.getAllExercises = function(id) {
+    var deferred = $q.defer();
+    try {      
+      var obj = trainingPlans[findByIdReturningIndex(id, trainingPlans)];
+      deferred.resolve(obj.exercises);
+    } catch(ex) {    
+      deferred.reject("Registro não encontrado: " + ex.message);
+    }
     return deferred.promise;
   };
   

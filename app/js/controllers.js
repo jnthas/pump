@@ -8,6 +8,8 @@ pumpControllers.controller("StudentController", function($scope, dataService) {
   
   dataService.getStudent().then(function(std) {
     $scope.student = std;  
+  }).catch(function(msg){
+    alert(msg);
   });
     
   $scope.save = function(obj) {
@@ -22,8 +24,10 @@ pumpControllers.controller("StudentController", function($scope, dataService) {
 
 /* Training Plan Controller */
 pumpControllers.controller("TrainingPlanListController", function($scope, dataService) {  
-  dataService.getAll().then(function(p){
+  dataService.getAllPlans().then(function(p){
     $scope.plans = p;   
+  }).catch(function(msg){
+    alert(msg);
   });
 });
 
@@ -45,7 +49,6 @@ pumpControllers.controller("TrainingPlanController", function($scope, $routePara
       alert(msg);
     });
   };
-
 });
 
 
@@ -56,12 +59,18 @@ pumpControllers.controller("ExerciseListController", function($scope, $routePara
     throw "Plano de treino não especificado!"
   }
   
+  
   dataService.findById(parseInt($routeParams.planId)).then(function(p){
-    var plan = p
-    $scope.plan = p;
-    $scope.exercises = p.exercises;    
+    $scope.plan = p;    
+  }).catch(function(msg){
+    alert(msg);
   });
   
+  dataService.getAllExercises(parseInt($routeParams.planId)).then(function(p){    
+    $scope.exercises = p;    
+  }).catch(function(msg){
+    alert(msg);
+  });  
 });
 
 
@@ -75,6 +84,8 @@ pumpControllers.controller("ExerciseController", function($scope, $routeParams, 
   if ($routeParams.exerciseId) {
     dataService.findExerciseById($routeParams.planId, parseInt($routeParams.exerciseId)).then(function(e){
       $scope.exercise = e;    
+    }).catch(function(msg){
+      alert(msg);
     });
   } else {
     $scope.exercise = new Exercise();       
@@ -87,10 +98,4 @@ pumpControllers.controller("ExerciseController", function($scope, $routeParams, 
       alert(msg);
     });
   };
-
-
 });
-
-
-
-

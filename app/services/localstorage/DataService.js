@@ -4,7 +4,7 @@ angular.module("pump").factory("dataService", function($q, localStorageService) 
   
   this.initialize = function() {
     var deferred = $q.defer();    
-    if (localStorageService.isSupported()) {
+    if (localStorageService.isSupported) {
       deferred.resolve();
     } else {
       deferred.reject("localStorage não suportado!");
@@ -22,7 +22,7 @@ angular.module("pump").factory("dataService", function($q, localStorageService) 
     return deferred.promise;
   };
   
-  this.getAll = function() {
+  this.getAllPlans = function() {
     var deferred = $q.defer();
     var plans = localStorageService.get("plans");
     if (!plans) {
@@ -31,12 +31,24 @@ angular.module("pump").factory("dataService", function($q, localStorageService) 
     deferred.resolve(plans);
     return deferred.promise;
   };
-  
+    
+  this.getAllExercises = function(id) {
+    var deferred = $q.defer();
+    try {
+      this.getAllPlans().then(function(plans){
+        var obj = plans[findByIdReturningIndex(id, plans)];
+        deferred.resolve(obj.exercises);
+      });
+    } catch(ex) {    
+      deferred.reject("Registro não encontrado: " + ex.message);
+    }
+    return deferred.promise;    
+  };
   
   this.findById = function(id) {
     var deferred = $q.defer();
     try {
-      this.getAll().then(function(plans){
+      this.getAllPlans().then(function(plans){
         var obj = plans[findByIdReturningIndex(id, plans)];
         deferred.resolve(obj);
       });
@@ -76,7 +88,7 @@ angular.module("pump").factory("dataService", function($q, localStorageService) 
   this.savePlan = function(plan) {    
     var deferred = $q.defer();
     try {
-      this.getAll().then(function(plans){
+      this.getAllPlans().then(function(plans){
         save(plans, plan);
         localStorageService.set("plans", plans);
         deferred.resolve();
